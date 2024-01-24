@@ -80,3 +80,37 @@ while counter < n:
         i += 1
 input = 4  # you can pass 6 and 9 as well
 print(arr[input - 1])
+
+'''
+Ryuk, the Shinigami (God of death) had allowed Light Yagami, a school student, to kill as many people as he can by using a death note. 
+But writing the names barely will allow other people to watch them. So he encrypts the names using digits, where a means 1, b means 2 and so on upto z is 26. 
+Now if he gives numbers, there is a communication error because a number string can be decrypted by the death note in various ways and eventually killing them all. 
+If everyone in the world has a unique name, for a given number, how many people can die?
+
+NOTE THAT: There is every possible name in the world with the 26 letters, and capital or small letters is not a problem.
+
+Input format:
+A number stream denoting the first name’s encrypted version
+
+Output Format:
+Number of people dying by this.
+
+Example:
+Sample Input: 1267
+Sample Output: 3 -> azg, lfg, abfg
+'''
+def deathNote(string, n):
+    if n == 0 or n == 1:
+        return 1
+    
+    ans = 0
+    if string[n - 1] > "0":
+        ans = deathNote(string, n-1)
+    if string[n - 2] == "1" or string[n - 2] == "2":
+        ans += deathNote(string, n-2)
+        
+    return ans  
+    
+s = "1267"
+l = len(s)
+print(deathNote(s, l))
