@@ -42,3 +42,41 @@ def newNumSys(string, lenStr, i):
 
 s="aba"
 print(newNumSys(s, len(s)-1, 0))
+
+'''
+3. Semester exams are going on for university students. Examiners noticed that a group of people are trying to cheat. 
+They marked students of that group as ‘1’ and students of another group ( who are not cheating ) as ‘0’ 
+We can reduce cheating by not allowing students from group 1 to sit together, means no two students from group 1 can sit together. 
+Seatings are marked using above conditions. Your task is to give the seating placement of nth possibility Possibility order from 1 to 10 is given below
+
+[1  10  100  101  1000  1001  1010  10000  10001  10010]
+Examples:
+4 -> 101
+6 -> 1001
+9 -> 10001
+'''
+pos = 10
+n = pos + 1
+arr = ["0"] * (n)
+arr[0] = "1"
+counter = 1
+i = 0
+while counter < n:
+    if arr[i][-1] == "0":
+        arr[counter] = arr[i] + "0"
+        counter += 1
+        if counter >= n:
+            break
+        arr[counter] = arr[i] + "1"
+        counter += 1
+        if counter >= n:
+            break
+        i += 1
+    elif arr[i][-1] == "1":
+        arr[counter] = arr[i] + "0"
+        counter += 1
+        if counter >= n:
+            break
+        i += 1
+input = 4  # you can pass 6 and 9 as well
+print(arr[input - 1])
