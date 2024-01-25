@@ -411,3 +411,9 @@ print(kth_largest.add(5))  # Output: 5
 print(kth_largest.add(10)) # Output: 5
 print(kth_largest.add(9))  # Output: 8
 print(kth_largest.add(4))  # Output: 8
+
+'''
+13. Find ‘k’ closest numbers
+    Problem Statement: Given a sorted number array and two integers ‘K’ and ‘X’, find ‘K’ closest numbers to ‘X’ in the array. 
+    Return the numbers in the sorted order. ‘X’ is not necessarily present in the array.
+'''
