@@ -433,3 +433,51 @@ target = 3
 k = 2
 result = find_k_closest_numbers(arr, target, k)
 print(f"The {k} closest numbers to {target} are: {result}")
+
+'''
+14. Delete node with given key
+    Problem statement: You are given the head of a linked list and a key. You have to delete the node that contains this given key.
+'''
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def delete_node(head, key):
+        # print(head.next.data, key)
+    # Case 1: If the key is in the head node
+    if head and head.data == key:
+        head = head.next
+        return head
+
+    # Case 2: Traverse the linked list to find the node with the given key
+    current = head
+    prev = None
+    while current and current.data != key:
+        prev = current
+        current = current.next
+
+    # If the key is not found, return the original head
+    if not current:
+        return head
+
+    # Case 3: Delete the node with the given key
+    prev.next = current.next
+
+    return head
+
+# Example usage:
+# Create a linked list: 1 -> 2 -> 3 -> 4 -> 5
+head = Node(1)
+head.next = Node(2)
+head.next.next = Node(3)
+head.next.next.next = Node(4)
+head.next.next.next.next = Node(5)
+
+# Delete node with key 3
+head = delete_node(head, 3)
+
+# Print the updated linked list
+while head:
+    print(head.data)
+    head = head.next
