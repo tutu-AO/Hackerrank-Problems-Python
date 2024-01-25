@@ -317,3 +317,70 @@ for i in range(n + 1, 100000):
         break
 
 print(arr, "output:", arr[n-1])
+
+'''
+10. Given word return the next alphabetically greater string in all permutations of the word. 
+If there is no greater permutation return the string ‘no answer’ instead. Write a code for it
+
+Example:
+input -> "baca"
+output -> "bcaa"
+'''
+from itertools import permutations
+
+def next_permutation(word):
+    # Generate all permutations of the word
+    all_permutations = sorted(set(permutations(word)))
+
+    # Find the index of the given word in the sorted list
+    current_index = all_permutations.index(tuple(word))
+
+    # If the current index is the last one, there is no next permutation
+    if current_index == len(all_permutations) - 1:
+        return "no answer"
+
+    return ''.join(all_permutations[current_index + 1])
+
+word = "baca"
+result = next_permutation(word)
+print(result)
+
+'''
+11. Given a string colors, where each character is either white or black, Wendy and Bob play a game to manipulate this string as follows:
+• They perform moves alternatively in turns and Wendy makes the first move.
+• In a single move, Wendy can remove from the string any white character that has exactly 2 white neighbors.
+• Similarly, in a single move, Bob can remove from string any black character that has exactly 2 black neighbors.
+• When a character is removed, the strings shrink itself, so if a character Y had neighbors X and Z on its left and right respectively before the move, after the move is made, X and Z become each other's neighbors.
+• The first player who cannot perform a move loses the game. For example, if the colors string is wwwbb, with the first move Wendy will change it to wwbb, and Bob can no longer perform a move. 
+Determine who has a winning strategy assuming that both Wendy and Bob play optimally
+
+Example:
+input -> "wwwbbbbwww"
+output -> bob
+'''
+def game_winner(colors):
+    players = {"wendy", "bob"}
+    curr_player = "wendy"
+    winner = ""
+
+    while True:
+        move_made = False
+        index = colors.find("www" if curr_player == "wendy" else "bbb")
+        if index != -1:
+            # 3 consecutive characters found, remove the middle one
+            colors = colors[:index + 1] + colors[index + 2:]
+            move_made = True
+            winner = curr_player
+            curr_player = players.difference({curr_player}).pop()
+
+        # If no moves possible, break
+        if not move_made:
+            if winner == "":
+                winner = players.difference({curr_player}).pop()
+            break
+    return winner
+
+# Example usage:
+colors = "wwwb"
+result = game_winner(colors)
+print(f"The winner is: {result}")
