@@ -563,4 +563,54 @@ print_linked_list_with_arbitrary_pointer(head)
 # # print("\nCopied Linked List:")
 print_linked_list_with_arbitrary_pointer(copied_head)
 
+'''
+16. Mirror binary trees
+    Problem statement: Given the root node of a binary tree, swap the ‘left’ and ‘right’ children for each node.
+
+    travesal techniques: Inorder(using this) -> Left, Root, Right
+                         Preorder  -> Root, Left, Right
+                         Postorder -> Left, Right, Root
+'''
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def mirror_binary_tree(root):
+    if root is None:
+        return None
+
+    # Swap left and right subtrees
+    root.left, root.right = root.right, root.left
+
+    # Recursively mirror the left and right subtrees
+    mirror_binary_tree(root.left)
+    mirror_binary_tree(root.right)
+
+    return root
+
+# Utility function to print the inorder traversal of a binary tree
+def print_inorder(root):
+    if root:
+        print_inorder(root.left)
+        print(root.value)
+        print_inorder(root.right)
+
+# Example usage:
+# Create a sample binary tree
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+print("Original Binary Tree (Inorder):")
+print_inorder(root)
+
+# Mirror the binary tree
+mirrored_root = mirror_binary_tree(root)
+
+print("\nMirrored Binary Tree (Inorder):")
+print_inorder(mirrored_root)
 
