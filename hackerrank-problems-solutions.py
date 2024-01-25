@@ -614,3 +614,65 @@ mirrored_root = mirror_binary_tree(root)
 print("\nMirrored Binary Tree (Inorder):")
 print_inorder(mirrored_root)
 
+'''
+17. Find all paths for a sum
+    Problem statement: Given a binary tree and a number ‘S’, find all paths from root-to-leaf such that the sum of all the node values of each path equals ‘S’.
+
+    Here, I'm using Depth-First Search to traverse the tree. There is also Breadth-First Search.
+    DFS: DFS, Depth First Search, is an edge-based technique. 
+         It uses the Stack data structure and performs two stages, 
+         first visited vertices are pushed into the stack, and 
+         second if there are no vertices then visited vertices are popped.
+         
+    BFS: BFS, Breadth-First Search, is a vertex-based technique for finding the shortest path in the graph. 
+         It uses a Queue data structure that follows first in first out. In BFS, one vertex is selected at 
+         a time when it is visited and marked then its adjacent are visited and stored in the queue. It is slower than DFS. 
+'''
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def find_paths_with_sum(root, target_sum):
+    paths = []
+    def dfs(node, current_path, current_sum):
+        if not node:
+            return
+
+        current_path.append(node.value)
+        current_sum += node.value
+
+        if not node.left and not node.right:
+            # Leaf node, check if the path has the target sum
+            if current_sum == target_sum:
+                paths.append(list(current_path))
+
+        dfs(node.left, current_path, current_sum)
+        dfs(node.right, current_path, current_sum)
+
+        current_path.pop()  # Backtrack
+    
+    dfs(root, [], 0)
+    return paths
+
+# Example usage:
+# Create a sample binary tree
+root = TreeNode(10)
+root.left = TreeNode(-5)
+root.right = TreeNode(-3)
+root.left.left = TreeNode(3)
+root.left.right = TreeNode(2)
+root.right.right = TreeNode(1)
+root.left.left.left = TreeNode(3)
+root.left.left.right = TreeNode(-2)
+root.left.right.right = TreeNode(1)
+
+target_sum = 8
+result_paths = find_paths_with_sum(root, target_sum)
+
+print(f"All paths with sum {target_sum}:")
+for path in result_paths:
+    print(path)
+
+
