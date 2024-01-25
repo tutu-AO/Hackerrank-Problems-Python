@@ -384,3 +384,30 @@ def game_winner(colors):
 colors = "wwwb"
 result = game_winner(colors)
 print(f"The winner is: {result}")
+
+'''
+12. Find the kth largest element in a number stream
+    Problem Statement: Design a class to efficiently find the Kth largest element in a stream of numbers. The class should have the following two things: ​
+        The constructor of the class should accept an integer array containing initial numbers from the stream and an integer ‘K’.
+        The class should expose a function add(int num) which will store the given number and return the Kth largest number.
+'''
+class KthLargest:
+    def __init__(self, k, nums):
+        self.k = k
+        self.nums = nums
+
+    def add(self, val):
+        self.nums.append(val)
+        self.nums.sort(reverse=True)
+        return self.nums[self.k - 1]
+
+# Example usage:
+k = 3
+nums = [4, 5, 8, 2]
+kth_largest = KthLargest(k, nums)
+
+print(kth_largest.add(3))  # Output: 4
+print(kth_largest.add(5))  # Output: 5
+print(kth_largest.add(10)) # Output: 5
+print(kth_largest.add(9))  # Output: 8
+print(kth_largest.add(4))  # Output: 8
