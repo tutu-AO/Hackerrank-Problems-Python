@@ -481,3 +481,86 @@ head = delete_node(head, 3)
 while head:
     print(head.data)
     head = head.next
+
+
+'''
+15. Copy linked list with arbitrary pointer
+Problem statement: You are given a linked list where the node has two pointers. The first is the regular ‘next’ pointer. 
+The second pointer is called ‘arbitrary_pointer’ and it can point to any node in the linked list.
+Your job is to write code to make a deep copy of the given linked list. Here, deep copy means that any operations on the original list 
+(inserting, modifying and removing) should not affect the copied list.
+'''
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.arbitrary = None
+
+def copy_linked_list_with_arbitrary_pointer(head):
+    if not head:
+        return None
+
+    # Step 1: Create a copy of each node and insert it next to the original node
+    current = head
+    while current:
+        new_node = Node(current.data)
+        new_node.next = current.next
+        current.next = new_node
+        current = new_node.next
+ 
+        
+    # Step 2: Update arbitrary pointers in the copied nodes
+    current = head
+    while current:
+        if current.arbitrary:
+            current.next.arbitrary = current.arbitrary.next
+        current = current.next.next
+
+    # Step 3: Separate the original and copied linked lists
+    new_head = head.next
+    current = head
+    new_current = new_head
+
+    while current:
+        current.next = new_current.next
+        current = current.next
+
+        if current:
+            new_current.next = current.next
+            new_current = new_current.next
+
+    return new_head
+
+# Example usage:
+# Create a linked list with arbitrary pointers: 1 -> 2 -> 3 -> 4
+# Arbitrary pointers: 1 -> 3, 2 -> 1, 3 -> 4, 4 -> 2
+head = Node(1)
+head.next = Node(2)
+head.next.next = Node(7)
+head.next.next.next = Node(4)
+head.next.next.next.next = Node(5)
+
+head.arbitrary = head.next.next
+head.next.arbitrary = head
+head.next.next.arbitrary = head.next.next.next
+head.next.next.next.arbitrary = head.next
+
+# # Copy the linked list with arbitrary pointers
+copied_head = copy_linked_list_with_arbitrary_pointer(head)
+
+
+# Print the original and copied linked lists with arbitrary pointers
+def print_linked_list_with_arbitrary_pointer(node):
+    while node:
+        arbitrary_data = node.arbitrary.data if node.arbitrary else None
+        print(f"{node.data} (Arbitrary: {arbitrary_data})", end=" -> ")
+        node = node.next
+    print("None")
+
+# # print("Original Linked List:")
+print_linked_list_with_arbitrary_pointer(head)
+
+# # print("\nCopied Linked List:")
+print_linked_list_with_arbitrary_pointer(copied_head)
+
+
