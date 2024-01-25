@@ -417,3 +417,19 @@ print(kth_largest.add(4))  # Output: 8
     Problem Statement: Given a sorted number array and two integers ‘K’ and ‘X’, find ‘K’ closest numbers to ‘X’ in the array. 
     Return the numbers in the sorted order. ‘X’ is not necessarily present in the array.
 '''
+def find_k_closest_numbers(arr, target, k):
+    left, right = 0, len(arr) - 1
+    while right - left + 1 > k:
+        if abs(arr[left] - target) > abs(arr[right] - target):
+            left += 1
+        else:
+            right -= 1
+
+    return arr[left:right + 1]
+
+# Example usage:
+arr = [1, 2, 3, 4, 5]
+target = 3
+k = 2
+result = find_k_closest_numbers(arr, target, k)
+print(f"The {k} closest numbers to {target} are: {result}")
