@@ -713,7 +713,7 @@ def longest_substring_with_k_distinct_chars(s, k):
     return s[max_start:max_start + max_length]
 
 # Example usage:
-s = "abcabcbb"
+s = "abcabcbb"  #output: bcbb
 k = 2
 result = longest_substring_with_k_distinct_chars(s, k)
 print(f"The longest substring with no more than {k} distinct characters is: {result}")
