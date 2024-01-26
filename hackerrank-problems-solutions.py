@@ -717,3 +717,33 @@ s = "abcabcbb"  #output: bcbb
 k = 2
 result = longest_substring_with_k_distinct_chars(s, k)
 print(f"The longest substring with no more than {k} distinct characters is: {result}")
+
+'''
+19. Longest substring with no repeating characters
+    Problem statement: Given a string, find if its letters can be rearranged in such a way that no two same characters come next to each other.
+'''
+def longest_substring_without_repeating(s):
+    char_index = {}
+    start = 0  
+    max_length = 0 
+    max_start = 0  
+
+    for end, char in enumerate(s):
+    
+        if char in char_index and char_index[char] >= start:
+            start = char_index[char] + 1
+
+        #print(char_index, char,max_start, max_length, start, end)
+        char_index[char] = end
+        current_length = end - start + 1
+        
+        if current_length > max_length:
+            max_length = current_length
+            max_start = start
+
+    return s[max_start:max_start + max_length]
+
+# Example usage:
+input_str = "bbcabcbb" #output: bca
+result = longest_substring_without_repeating(input_str)
+print(f"The longest substring without repeating characters is: {result}")
