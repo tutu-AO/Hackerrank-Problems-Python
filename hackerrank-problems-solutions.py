@@ -676,3 +676,38 @@ for path in result_paths:
     print(path)
 
 
+'''
+18. Longest substring with no more than ‘k’ distinct characters
+    Problem statement: Given a string, find the length of the longest substring in it with no more than K distinct characters.
+'''
+def longest_substring_with_k_distinct_chars(s, k):
+    if k == 0:
+        return ""
+
+    char_count = {}
+    start = 0
+    max_length = 0
+    max_start = 0
+
+    for end, char in enumerate(s):
+        
+        char_count[char] = char_count.get(char, 0) + 1
+
+        while len(char_count) > k:
+            char_count[s[start]] -= 1
+            if char_count[s[start]] == 0:
+                del char_count[s[start]]
+            start += 1
+    
+        current_length = end - start + 1
+        if current_length > max_length:
+            max_length = current_length
+            max_start = start
+
+    return s[max_start:max_start + max_length]
+
+# Example usage:
+s = "abcabcbb"
+k = 2
+result = longest_substring_with_k_distinct_chars(s, k)
+print(f"The longest substring with no more than {k} distinct characters is: {result}")
