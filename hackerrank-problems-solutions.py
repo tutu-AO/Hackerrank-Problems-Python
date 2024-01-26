@@ -679,6 +679,12 @@ for path in result_paths:
 '''
 18. Longest substring with no more than ‘k’ distinct characters
     Problem statement: Given a string, find the length of the longest substring in it with no more than K distinct characters.
+
+    I used the sliding window technique:
+            The sliding window approach is particularly useful for solving problems that involve 
+            finding subarrays or substrings that meet certain conditions, such as the longest subarray 
+            with a specific sum, the shortest substring with certain properties, or, as in the previous 
+            example, the longest substring with a limited number of distinct characters.
 '''
 def longest_substring_with_k_distinct_chars(s, k):
     if k == 0:
