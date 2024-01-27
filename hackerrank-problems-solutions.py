@@ -747,3 +747,123 @@ def longest_substring_without_repeating(s):
 input_str = "bbcabcbb" #output: bca
 result = longest_substring_without_repeating(input_str)
 print(f"The longest substring without repeating characters is: {result}")
+
+'''
+20. Equal subset sum partition
+    Problem statement: Given a set of positive numbers, find if we can partition it into two subsets such that the sum of elements in both subsets is equal.
+
+    I used dynamic programming to solve this problem. 
+    DP is used to solve a variety of problems, including optimization problems, pathfinding problems, and problems related to combinatorics. 
+    Classic examples of problems solved using dynamic programming include the Fibonacci sequence, the knapsack problem, and the longest common subsequence problem.
+    This technique is particularly useful for optimization problems where the goal is to find the best solution among a set of feasible solutions.
+'''
+def can_partition(nums):
+    total_sum = sum(nums)
+
+    # If the total sum is odd, it cannot be partitioned into two equal subsets
+    if total_sum % 2 != 0:
+        return False
+
+    target_sum = total_sum // 2
+    n = len(nums)
+
+    # Create a 2D DP table to store the intermediate results
+    dp = [[False] * (target_sum + 1) for _ in range(n + 1)]
+
+    # Base case: an empty subset can achieve a sum of 0
+    for i in range(n + 1):
+        dp[i][0] = True
+
+    # Fill the DP table
+    for i in range(1, n + 1):
+        for j in range(1, target_sum + 1):
+            dp[i][j] = dp[i - 1][j]
+            if j >= nums[i - 1]:
+                dp[i][j] = dp[i][j] or dp[i - 1][j - nums[i - 1]]
+
+    return dp[n][target_sum]
+
+# Example usage:
+nums = [1, 5, 11, 5]
+result = can_partition(nums)
+print(f"Can the set be partitioned into two equal subsets? {result}")
+
+'''
+21. Determine if the number is valid
+    Problem statement: Given an input string, determine if it makes a valid number or not. 
+    For simplicity, assume that white spaces are not present in the input.
+'''
+def is_valid_number(s):
+    s = s.strip()  # Remove leading and trailing whitespaces
+    if not s:
+        return False  # Empty string is not a valid number
+    
+    # Check for the sign
+    if s[0] in ('+', '-'):
+        s = s[1:]
+    
+    # Check if the remaining characters are digits, a dot, or 'e'
+    is_dot_used = False
+    is_e_used = False
+    for char in s:
+        if char.isdigit():
+            continue
+        elif char == '.' and not is_dot_used and not is_e_used:
+            is_dot_used = True
+        elif char.lower() == 'e' and not is_e_used:
+            is_e_used = True
+            is_dot_used = True  # Reset dot flag as 'e' allows a dot after it
+        elif char in ('+', '-') and is_e_used:
+            continue  # Allow '+' or '-' immediately after 'e'
+        else:
+            return False  # Character is not a valid digit, dot, or 'e'
+    
+    return s[-1] != 'e'  # 'e' should not be the last character
+
+# Example usage:
+input_string = "+4.6E+87"
+result = is_valid_number(input_string)
+print(f"Is '{input_string}' a valid number? {result}")
+
+# the easier way using float(str)
+def is_valid_float(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
+# Example usage:
+number = "454.635e-4980"
+result = is_valid_float(number)
+print(f"Is {number} a valid float? {result}")
+
+'''
+22. Print balanced brace combinations
+    Problem statement: Print all braces combinations for a given value ‘N’ so that they are balanced.
+    
+    I used the recursive approach to solve this problem.
+    The helper function recursively adds either an opening or closing brace to the current 
+    combination while ensuring that the number of left and right braces stays balanced.
+'''
+def generate_balanced_braces(n):
+    result = []
+    def generate_helper(s, left, right):
+        if left == 0 and right == 0:
+            result.append(s)
+            return
+        if left > 0:
+            generate_helper(s + '(', left - 1, right)
+        if right > left:
+            generate_helper(s + ')', left, right - 1)
+            print(s, left, right)
+
+    
+    generate_helper('', n, n)
+    return result
+
+# Example usage:
+n = 2
+balanced_braces = generate_balanced_braces(n)
+for combination in balanced_braces:
+    print(combination)
