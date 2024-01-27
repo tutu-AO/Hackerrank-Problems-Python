@@ -913,6 +913,52 @@ result = can_schedule_tasks(tasks, dependencies)
 print(f"Can tasks be scheduled? {result}")
 
 '''
+24. Implement a LRU cache
+    Least Recently Used (LRU) is a common caching strategy. 
+    It defines the policy to evict elements from the cache to make room for new 
+    elements when the cache is full, meaning it discards the least recently used items first.
+
+    I used combination of OrderedDict from the 'collection' module and a custom class.
 '''
+from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key):
+        if key in self.cache:
+            # Move the accessed key to the end to mark it as the most recently used
+            self.cache.move_to_end(key)
+            return self.cache[key]
+        else:
+            return -1  # Key not found
+
+    def put(self, key, value):
+        if key in self.cache:
+            # Remove the existing key to update its order
+            del self.cache[key]
+        elif len(self.cache) >= self.capacity:
+            # Remove the least recently used key if the cache is full
+            self.cache.popitem(last=False)
+
+        # Add the new key-value pair
+        self.cache[key] = value
+        # Move the new key to the end to mark it as the most recently used
+        self.cache.move_to_end(key)
+
+# Example usage:
+lru_cache = LRUCache(3)
+lru_cache.put(1, 1)
+lru_cache.put(2, 2)
+lru_cache.put(3, 3)
+
+print(lru_cache.get(1))  # Output: 1 (1 is the most recently used)
+print(lru_cache.get(2))  # Output: 2 (2 is now the most recently used)
+
+lru_cache.put(4, 4)  # Remove the least recently used key (3) to make space for 4
+print(lru_cache.get(3))  # Output: -1 (3 was removed, so it's not in the cache anymore)
+
 
 
