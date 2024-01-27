@@ -867,3 +867,48 @@ n = 2
 balanced_braces = generate_balanced_braces(n)
 for combination in balanced_braces:
     print(combination)
+
+'''
+23. Given a number of tasks, determine if they can all be scheduled
+    Problem statement: There are ‘N’ tasks, labeled from ‘0’ to ‘N-1’. 
+    Each task can have some prerequisite tasks which need to be completed before it can be scheduled. 
+    Given the number of tasks and a list of prerequisite pairs, find out if it is possible to schedule all the tasks.
+
+    I used topological sorting to solve this problem.
+    Topological sorting is a linear ordering of tasks that respects their partial order, 
+    meaning that if task A depends on task B, then task B comes before task A in the ordering.
+'''
+from collections import defaultdict, deque
+
+def can_schedule_tasks(tasks, dependencies):
+    # Build a graph to represent task dependencies
+    graph = defaultdict(list)
+    in_degree = defaultdict(int)
+
+    for u, v in dependencies:
+        graph[v].append(u)
+        in_degree[u] += 1
+
+    # Initialize a queue with tasks having no dependencies
+    queue = deque([task for task in tasks if in_degree[task] == 0])
+
+    # Perform topological sorting
+    result_order = []
+    while queue:
+        current_task = queue.popleft()
+        result_order.append(current_task)
+
+        for dependent_task in graph[current_task]:
+            in_degree[dependent_task] -= 1
+            if in_degree[dependent_task] == 0:
+                queue.append(dependent_task)
+
+    # If the result order doesn't contain all tasks, there are cycles (dependencies cannot be satisfied)
+    return len(result_order) == len(tasks)
+
+# Example usage:
+tasks = [1, 2, 3, 4, 5]
+dependencies = [(2, 1), (3, 2), (4, 3), (5, 4)]
+result = can_schedule_tasks(tasks, dependencies)
+print(f"Can tasks be scheduled? {result}")
+
