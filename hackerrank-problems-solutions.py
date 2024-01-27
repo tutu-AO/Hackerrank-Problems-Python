@@ -912,3 +912,7 @@ dependencies = [(2, 1), (3, 2), (4, 3), (5, 4)]
 result = can_schedule_tasks(tasks, dependencies)
 print(f"Can tasks be scheduled? {result}")
 
+'''
+'''
+
+
