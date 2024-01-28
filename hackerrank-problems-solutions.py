@@ -1005,4 +1005,41 @@ low, high = find_low_high_indices(sorted_array, target_value)
 print(f"Low Index: {low}")
 print(f"High Index: {high}")
 
+'''
+26. Merge overlapping intervals
+    You are given an array (list) of interval pairs as input where each interval has a start and end timestamp. 
+    The input array is sorted by starting timestamps. 
+    You are required to merge overlapping intervals and return output array (list).
+'''
+def merge_intervals(intervals):
+    if not intervals:
+        return []
+
+    # Sort intervals based on their start points
+    intervals.sort(key=lambda x: x[0])
+
+    print(intervals)
+
+    merged = [intervals[0]]
+
+    print(merged)
+
+    for i in range(1, len(intervals)):
+        current_start, current_end = intervals[i]
+        previous_start, previous_end = merged[-1]
+
+        # Check for overlap
+        if current_start <= previous_end:
+            # Merge intervals
+            merged[-1] = [previous_start, max(current_end, previous_end)]
+        else:
+            # No overlap, add the current interval to the result
+            merged.append([current_start, current_end])
+
+    # return merged
+
+# Example usage:
+intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]
+merged_intervals = merge_intervals(intervals)
+print("Merged Intervals:", merged_intervals)
 
