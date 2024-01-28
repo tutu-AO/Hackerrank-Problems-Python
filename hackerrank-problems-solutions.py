@@ -960,5 +960,49 @@ print(lru_cache.get(2))  # Output: 2 (2 is now the most recently used)
 lru_cache.put(4, 4)  # Remove the least recently used key (3) to make space for 4
 print(lru_cache.get(3))  # Output: -1 (3 was removed, so it's not in the cache anymore)
 
+'''
+25. Find the high and low index
+    Problem statement: Given a sorted array of integers, return the low and high index of the given key. 
+    Return -1 if not found. 
+    The array length can be in the millions with many duplicates.
+
+    I used the binary search algorithm.
+    Binary search is a search algorithm used to find the position of a target value within a sorted array. 
+    It works by repeatedly dividing the search interval in half. Binary search is an efficient algorithm with a time complexity of O(log n), 
+    where n is the number of elements in the array.
+'''
+def find_low_high_indices(arr, target):
+    def binary_search(arr, target, find_low):
+        low, high = 0, len(arr) - 1
+        result = -1
+
+        while low <= high:
+            mid = (low + high) // 2
+
+            if arr[mid] == target:
+                result = mid
+                if find_low:
+                    high = mid - 1  # Search for the lower index
+                else:
+                    low = mid + 1   # Search for the higher index
+            elif arr[mid] < target:
+                low = mid + 1
+            else:
+                high = mid - 1
+
+        return result
+
+    low_index = binary_search(arr, target, True)
+    high_index = binary_search(arr, target, False)
+
+    return low_index, high_index
+
+# Example usage:
+sorted_array = [1, 2, 2, 2, 3, 4, 4, 5]
+target_value = 2
+low, high = find_low_high_indices(sorted_array, target_value)
+
+print(f"Low Index: {low}")
+print(f"High Index: {high}")
 
 
