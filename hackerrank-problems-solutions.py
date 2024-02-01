@@ -55,31 +55,21 @@ Examples:
 6 -> 1001
 9 -> 10001
 '''
-pos = 10
-n = pos + 1
-arr = ["0"] * (n)
-arr[0] = "1"
-counter = 1
-i = 0
-while counter < n:
-    if arr[i][-1] == "0":
-        arr[counter] = arr[i] + "0"
-        counter += 1
-        if counter >= n:
-            break
-        arr[counter] = arr[i] + "1"
-        counter += 1
-        if counter >= n:
-            break
+def seatingArrangement(n):
+    seatPlacements = []
+    i = 1
+
+    while len(seatPlacements) < n:
+        binaryNum = bin(i)[2:]
+        if '11' not in binaryNum:
+            seatPlacements.append(int(binaryNum))
         i += 1
-    elif arr[i][-1] == "1":
-        arr[counter] = arr[i] + "0"
-        counter += 1
-        if counter >= n:
-            break
-        i += 1
-input = 4  # you can pass 6 and 9 as well
-print(arr[input - 1])
+
+    return seatPlacements
+    
+n = 12
+placements = seatingArrangement(n)
+print(placements)
 
 '''
 4. Ryuk, the Shinigami (God of death) had allowed Light Yagami, a school student, to kill as many people as he can by using a death note. 
