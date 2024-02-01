@@ -89,21 +89,27 @@ Example:
 Sample Input: 1267
 Sample Output: 3 -> azg, lfg, abfg
 '''
-def deathNote(string, n):
-    if n == 0 or n == 1:
-        return 1
-    
-    ans = 0
-    if string[n - 1] > "0":
-        ans = deathNote(string, n-1)
-    if string[n - 2] == "1" or string[n - 2] == "2":
-        ans += deathNote(string, n-2)
+def count_possible_names(number_str, num):
+
+    def is_valid_num(sub_str):
+        return 1 <= int(sub_str) <= 26
+
+    count = [0] * (num + 1)
+    count[0] = 1
+    for i in range(1, num + 1):
+        if is_valid_num(number_str[i - 1]):
+            count[i] += count[i - 1]
         
-    return ans  
-    
-s = "1267"
-l = len(s)
-print(deathNote(s, l))
+        if i > 1 and is_valid_num(number_str[i-2:i]):
+            count[i] += count[i - 2]
+            
+    return count[num]
+
+# Example usage:
+number_str = "1267"
+num = len(number_str)
+result = count_possible_names(number_str, num)
+print(f"For the number {number_str}, {result} different names can be formed.")
 
 '''
 5. Choco, a chocolate lover, has N amount of money with him. He wants to buy as much chocolate as possible. 
